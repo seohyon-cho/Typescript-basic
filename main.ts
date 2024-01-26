@@ -2,7 +2,7 @@
 
 interface Task {
 	id: number;
-	title: string | undefined; // title에 담기는 값 자체가 DOM을 통해 가져오는 문자열인데, DOM에서 가져오는 값은 문자열 형태라고 해서 문자열이라고만 설정하는 게 아니고, 반드시 유니온 타입으로 undefined 도 같이 써줘야 함.
+	title: string | Node; // 해당 값은 추후 JS에서 prepend메서드의 인수로 전달될 값인데 해당메서드가 string, node만 전달되도로 강제
 	createAt: Date;
 	complete: boolean;
 }
@@ -25,7 +25,7 @@ form?.addEventListener('submit', (e) => {
 
 	const newTask = {
 		id: performance.now(),
-		title: input?.value,
+		title: input?.value || '',
 		createAt: new Date(),
 		complete: false,
 	};
@@ -41,7 +41,7 @@ form?.addEventListener('submit', (e) => {
 	input && (input.value = '');
 });
 
-function addListItem(task) {
+function addListItem(task: Task) {
 	const item = document.createElement('li');
 	const checkbox = document.createElement('input');
 	checkbox.type = 'checkbox';
@@ -57,6 +57,7 @@ function addListItem(task) {
 		checkbox.checked = false;
 	}
 
+	// 위의 form(DOM에서 만든 요소)와는 달리 checkbox는 스크립트로 동적으로 만들어진 것이므로 optional chaining 처리 안 해도 됨.
 	checkbox.addEventListener('change', () => {
 		task.complete = checkbox.checked;
 		if (task.complete) {
@@ -69,17 +70,22 @@ function addListItem(task) {
 				const del_id = task.id;
 				tasks = tasks.filter((el) => el.id !== del_id);
 				saveTasks();
-				e.currentTarget.parentElement.remove();
+				// 타입스크립트에서는 event 객체 안쪽의 property 를 읽지 못 하는 버그가 존재함.
+				// 해결 방법 : 해당 event 객체를 변수로 옮겨담아 직접 타입을 지정하면 해결됨.
+				const eventTarget = e.currentTarget as HTMLButtonElement;
+				eventTarget.parentElement?.remove();
 			});
 		} else {
 			item.style.textDecoration = 'none';
-			item.querySelector('button').remove();
+			// item은 스크립트가 만든 거라 optional chaining 대상이 아니고, 그 뒤의 querySelector로 선택한 button이 DOM에서 생성되는 요소이기 때문에 이에 대해 optional chaining 처리하면 됨.
+			item.querySelector('button')?.remove();
 		}
 		saveTasks();
 	});
 
-	item.prepend(checkbox, task.title);
-	list.append(item);
+	const newText: string | Node = task.title;
+	item.prepend(checkbox, newText);
+	list?.append(item);
 }
 
 function saveTasks() {

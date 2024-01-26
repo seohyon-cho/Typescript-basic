@@ -14,7 +14,7 @@ form === null || form === void 0 ? void 0 : form.addEventListener('submit', (e) 
         return alert('할일을 입력하세요.');
     const newTask = {
         id: performance.now(),
-        title: input === null || input === void 0 ? void 0 : input.value,
+        title: (input === null || input === void 0 ? void 0 : input.value) || '',
         createAt: new Date(),
         complete: false,
     };
@@ -43,7 +43,9 @@ function addListItem(task) {
         item.style.textDecoration = 'none';
         checkbox.checked = false;
     }
+    // 위의 form(DOM에서 만든 요소)와는 달리 checkbox는 스크립트로 동적으로 만들어진 것이므로 optional chaining 처리 안 해도 됨.
     checkbox.addEventListener('change', () => {
+        var _a;
         task.complete = checkbox.checked;
         if (task.complete) {
             item.style.textDecoration = 'line-through';
@@ -51,20 +53,26 @@ function addListItem(task) {
             button.innerText = '삭제';
             item.append(button);
             button.addEventListener('click', (e) => {
+                var _a;
                 const del_id = task.id;
                 tasks = tasks.filter((el) => el.id !== del_id);
                 saveTasks();
-                e.currentTarget.parentElement.remove();
+                // 타입스크립트에서는 event 객체 안쪽의 property 를 읽지 못 하는 버그가 존재함.
+                // 해결 방법 : 해당 event 객체를 변수로 옮겨담아 직접 타입을 지정하면 해결됨.
+                const eventTarget = e.currentTarget;
+                (_a = eventTarget.parentElement) === null || _a === void 0 ? void 0 : _a.remove();
             });
         }
         else {
             item.style.textDecoration = 'none';
-            item.querySelector('button').remove();
+            // item은 스크립트가 만든 거라 optional chaining 대상이 아니고, 그 뒤의 querySelector로 선택한 button이 DOM에서 생성되는 요소이기 때문에 이에 대해 optional chaining 처리하면 됨.
+            (_a = item.querySelector('button')) === null || _a === void 0 ? void 0 : _a.remove();
         }
         saveTasks();
     });
-    item.prepend(checkbox, task.title);
-    list.append(item);
+    const newText = task.title;
+    item.prepend(checkbox, newText);
+    list === null || list === void 0 ? void 0 : list.append(item);
 }
 function saveTasks() {
     localStorage.setItem('TASKS', JSON.stringify(tasks));
