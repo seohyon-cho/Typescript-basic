@@ -2,37 +2,24 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <script src="main.js"></script>
+  <script defer src="origin.js"></script>
+  <!-- <script src="main.js"></script> -->
 </head>
 
 <body>
+  <form id="form">
+    <input type="text" id="title" placeholder="오늘할일" />
+    <button type="submit">add</button>
+  </form>
 
+  <ul id="list">
+    <!-- <li>
+        <input type="check"> 할 일 내용
+      </li> -->
+  </ul>
 </body>
 
 </html>
-
-<!-- 
-
-  * Javascript 의 한계점
-    - Java, C와 같은 컴파일 언어에는 Type이 지정되어 있음. = 변수에 자료를 대입할 때, 자료형마다의 Type을 지정할 수 있음. 
-    - 그러나 Javascript는 type 지정이 불가능함. 큰 값이든 작은 값이든 똑같은 메모리에 저장하므로 비효율적. 
-    - 자스는 자료 타입에 대해 관대하므로 (따로 지정을 하지 않으므로) runtime 단에서 코드 실행 시, 오류 발생할 확률이 높음. (=문법이 strict하지 못 함.)
-    - 결국 자바스크립트는 Interpreter 언어이므로 그 언어의 한계상, 개발 시 미처 오류를 확인하지 못 하고 배포 시, 클라이언트가 오류를 직접 접하게 될 확률이 높음 (= runtime에서의 오류 = 실 서비스 돌아가고 있는 상황일 경우 이렇게 오류 발생하는 것은 개발에서의 가장 최악)
-    - 컴파일 과정이 없기 때문에, 대형 서비스 개발 시, 예기치 못 한 오류로 큰 문제가 발생할 수 있음. 
-
-    -> 이러한 문제점을 해결하기 위해 타입스크립트가 등장함. 
-
-  [ TypeScript ]
-
-  * 타입스크립트의 이점 
-  - 자료형마다 strict하게 타입을 지정할 수 있음. 
-  - 컴파일 단계를 거치기 때문에, 웬만한 오류는 runtime이 아닌 컴파일 시 발견 가능. 
-  - 타입을 지정해놓기 때문에, (함수 마다 타입 지정도 가능하므로) 코드 개발 시 오류가 발생했을 떄, 타입에 대해 에러를 띄워주기 때문에 보다 즉각적으로 오류를 발견할 수 있음. 
-  
-  - 그러나, 브라우저 자체는 타입스크립트를 해석할 수 없기 때문에, 실제 개발 작업은 타입스크립트로 하되, 해당 타입스크립트의 내용을 실시간으로 브라우저가 읽을 수 있는 javascript 형태로 다시 변환해서 브라우저에 연결하는 구조임. 
-  
-
--->
