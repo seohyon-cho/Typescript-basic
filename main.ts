@@ -1,23 +1,24 @@
-// 함수의 parameter에는 무조건 타입을 지정해줘야 함.
-// return 값이 있는 함수면, 파라미터 뒤에 :을 붙여서 return 값의 타입 지정 가능.
-// return 값이 없다면, return 값의 타입을 void 로 지정하면 됨.
-// 그러나 일반적으로 인수 자체가 제대로 전달되면, return 값이 잘못 나올 리가 없고
-// return에 타입을 지정해서 return 단에서 에러가 잡혀봤자 이미 에러가 난 상황이기 때문에 return에 타입 지정을 하는 것이 무의미할 수 있음.
+// 서로 다른 로직의 함수라 하더라도, 전달되는 인수와 return 값이 매번 동일한 패턴이라고 한다면, 함수마다 각각 타입 지정을 해주는 것은 번거롭고 비효율적임.
+// interface로 특정 함수의 타입을 지정해서 재활용 할 수 있음.
+interface Calc {
+	// 리턴의 타입을 number | void; 로 지정함으로서, 리턴 값이 있을 땐 리턴의 타입이 number로 설정되고, return 값이 없으면 void로 지정됨으로써 오류 안 뜨게 처리.
+	(n1: number, n2: number): number | void;
+}
 
-const plus = (n1: number, n2: number): number => {
+const plus: Calc = (n1, n2) => {
 	console.log(n1 + n2);
 	return n1 + n2;
 };
 
-const minus = (n1: number, n2: number) => {
+const minus: Calc = (n1, n2) => {
 	return n1 - n2;
 };
 
-const multiply = (n1: number, n2: number) => {
-	return n1 * n2;
+const multiply: Calc = (n1, n2) => {
+	console.log(n1 * n2);
 };
 
-const divider = (n1: number, n2: number) => {
+const divider: Calc = (n1, n2) => {
 	return n1 / n2;
 };
 
