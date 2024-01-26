@@ -1,9 +1,11 @@
+// 타입 지정 시, type 을 주로 사용하는 경우
+// 1. 기존 객체 타입의 property를 추가하는 것이 아니라, 서로 다른 객체를 합쳐서 새로운 타입을 만들어야 할 때.
+// 2. 객체가 아닌 일반 자료형일 때
 let student1 = {
-    name: 'David',
+    name: 'Emily',
     age: 30,
     isFemale: false,
 };
-/*
-    interface 선언 방식은, 확장이 가능함. (최초 선언 이후로, property 추가할 수도 있음.)
-    interface 같은 경우, 객체 전용이므로, 객체의 property 확장에 따른 구조 변경이 간단함.
-*/
+const test = (info) => {
+    console.log(info);
+};
