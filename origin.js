@@ -43,7 +43,7 @@ function addListItem(task) {
 		item.append(button);
 	} else {
 		item.style.textDecoration = 'none';
-		checkbox.checkded = false;
+		checkbox.checked = false;
 	}
 
 	// 동적으로 생성된 목록 요소에 추후 change 이벤트 연결.
