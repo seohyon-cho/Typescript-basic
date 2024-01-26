@@ -1,14 +1,37 @@
-// || 연산자로 예외처리 했을 때 문제가 발생할 수 있는 상황
-const introduce = (name, age) => {
-    console.log(`This is ${name}`);
-    console.log(`${name} is ${age !== null && age !== void 0 ? age : 'default'} years old`);
-};
 /*
-    기존 || 연산자보다 null 병합 연산자를 사용해야 하는 이유
+    Generic
+    : 공통된 규칙인데, 호출할 때 들어갈 자료형을 매번 산정하기 어려울 때, 일일히 타입을 따로 지정하는 것이 비효율적이므로, 타입 지정 자체를 호출할 때 지정하는 틀.
 
-    - || 연산자는, 빈 문자나 0 처럼 실제적인 값이 있는 값조차도 false로 인식해서 예외처리하므로, 예상치 못 한 문제가 발생할 수 있음.
-    - ?? (null 병합 연산자) 는 무조건 undefined 나 null 같이 실제로 에러가 발생할만한 상황에서만 예외처리를 함.
-
-    --> ?? 를 사용하는 것이 좀 더 디테일하게 예외처리를 할 수 있음.
+    틀은 정해져있는데, 그 안에 들어갈 값 자체가 산정하기 어려울 때
+    generic은 큰 틀만 처음에 정의해두고, 자료형은 호출할 때 정하는 형태.
 */
-introduce('my Baby', 0);
+// 하단의 케이스는, 배열의 들어가는 자료값이 일정하지 않으므로, 동일한 구조임에도 불구하고 타입에 따른 함수를 여러 개 만들어야 하는 번거로움이 있음.
+const getLength = (arr) => {
+    return arr.length;
+};
+const getLength2 = (arr) => {
+    return arr.length;
+};
+// Any 타입으로 지정함으로서 위의 문제점을 해결할 수 있긴 함.
+// 다만 정상적이지 않은 값이 들어와도 컴파일 시 에러를 잡지 못 하므로 바람직하지 않은 방법.
+const getAnyLength = (arr) => {
+    return arr.length;
+};
+const numbers = [1, 2, 3, 4, 5];
+const letters = ['a', 'b', 'c'];
+const weired = [false, 3, '3'];
+getAnyLength(numbers);
+getAnyLength(letters);
+getAnyLength(weired);
+// Generic을 활용하여, 호출 시에 타입을 지정하도록 함으로서 위의 문제점을 해결할 수 있음.
+// Generic으로 호출 시, 상세 타입을 파라미터로 전달.
+const getGenericLength = (arr) => {
+    return arr.length;
+};
+// " 함수 호출 시 미리 지정한 경로 타입을 전달하는 구조 "
+// 문자열 타입으로 지정하고 싶은 경우
+getGenericLength(['a', 'b']);
+// 숫자 타입으로 지정하고 싶은 경우
+getGenericLength([1, 2]);
+// 어떤 값이 들어올지 산정하기 어려울 경우 (유니온 타입 사용)
+getGenericLength([1, '2']);
