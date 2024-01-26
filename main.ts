@@ -18,6 +18,7 @@ const classInfo: Student[] = [
 
 // 단순 문자타입으로 구성된 배열
 const names: string[] = ['red', 'green', 'blue'];
+const names2: number[] = [1, 2, 3];
 
 const getArrayInfo = <t>(arr: t[]) => {
 	console.log(arr);
@@ -27,3 +28,5 @@ const getArrayInfo = <t>(arr: t[]) => {
 // 이렇게 해야 다양한 형태의 데이터에 대해서 범용적으로 활용할 수 있음.
 getArrayInfo<Student>(classInfo);
 getArrayInfo<string>(names);
+// 아래처럼 우리가 의도한 값과 다른 값이 함수에 들어올 때, generic을 활용해 오류 파악이 가능해짐.
+getArrayInfo<string>(names2);
